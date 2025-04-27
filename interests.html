@@ -8,6 +8,8 @@
     nav a { color: white; margin: 0 10px; text-decoration: none; }
     body { font-family: sans-serif; margin: 0; padding: 0; }
     section { padding: 50px; }
+    .interest-list { margin-top: 20px; }
+    .interest-item { margin-bottom: 10px; padding: 10px; background-color: #f4f4f4; border-radius: 5px; }
   </style>
 </head>
 <body>
@@ -21,7 +23,53 @@
 <section>
   <h2>Интереси</h2>
   <p>Интересувам се от програмиране, уеб разработка, бази данни и компютърни мрежи. Обичам да създавам сайтове и да работя по практически проекти.</p>
+
+  <div class="interest-list">
+    <h3>Моите интереси:</h3>
+    <ul id="interests">
+      <!-- Тук ще се зареждат интересите от Supabase -->
+    </ul>
+  </div>
 </section>
+
+<script>
+  // Задай URL и анонимния ключ от Supabase API
+  const SUPABASE_URL = 'https://ipzlxcjcpuqbkmrsusft.supabase.co'; // Замени с твоето Supabase URL
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlwemx4Y2pjcHVxYmttcnN1c2Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NzkxOTIsImV4cCI6MjA2MTM1NTE5Mn0.fhAC8gItainXYCTjRtpIG6w9eGm_G1nilgmRoy5Z3k4'; // Замени с твоя анонимен ключ
+
+  // Инициализация на Supabase клиент
+  const { createClient } = supabase;
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Функция за зареждане на интересите
+  async function loadInterests() {
+    try {
+      const { data, error } = await supabase
+        .from('interests') // 'interests' е името на таблицата в Supabase
+        .select('*'); // Избира всички колони
+
+      if (error) throw error;
+
+      const interestsList = document.getElementById('interests');
+      interestsList.innerHTML = ''; // Изчистваме списъка, за да избегнем дублиране
+
+      data.forEach(interest => {
+        const li = document.createElement('li');
+        li.classList.add('interest-item');
+        li.textContent = interest.name; // Предполага се, че колоната в Supabase се казва 'name'
+        interestsList.appendChild(li);
+      });
+    } catch (error) {
+      console.error('Грешка при зареждането на интересите:', error);
+    }
+  }
+
+  // Извикваме функцията при зареждане на страницата
+  loadInterests();
+</script>
+
+<!-- Добави Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
 
 </body>
 </html>
