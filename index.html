@@ -2,171 +2,78 @@
 <html lang="bg">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Желязко Иванов Иванов</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #e8f0fe;
-      color: #333;
-    }
-
-    header {
-      background-color: #007acc;
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-    }
-
-    nav {
-      background-color: #005fa3;
-      display: flex;
-      justify-content: center;
-    }
-
-    nav a {
-      color: white;
-      padding: 14px 20px;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-
-    nav a:hover {
-      background-color: #00487a;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      margin-top: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
+    body { font-family: sans-serif; margin: 0; padding: 0; }
+    nav { background: #333; padding: 1em; }
+    nav a { color: white; margin: 0 10px; text-decoration: none; }
+    section { padding: 50px; }
+    html { scroll-behavior: smooth; }
     img.profile {
-      float: right;
-      width: 150px;
+      max-width: 200px;
       border-radius: 10px;
-      margin-left: 20px;
-    }
-
-    ul {
-      list-style-type: square;
-    }
-
-    form {
-      background: #f0f8ff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-family: inherit;
-    }
-
-    button {
-      background-color: #007acc;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
       cursor: pointer;
-      font-size: 1rem;
+      transition: transform 0.2s;
     }
-
-    button:hover {
-      background-color: #005fa3;
+    /* Скрита светла кутия за уголемена снимка */
+    #lightbox {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
     }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #007acc;
-      color: white;
-      margin-top: 30px;
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Желязко Иванов Иванов</h1>
-    <p>Студент по Информационни технологии в индустрията</p>
-  </header>
+<nav>
+  <a href="#about">За мен</a>
+  <a href="#interests">Интереси</a>
+  <a href="#contact">Контакт</a>
+</nav>
 
-  <nav>
-    <a href="#about">За мен</a>
-    <a href="#interests">Интереси</a>
-    <a href="#contact">Контакт</a>
-  </nav>
+<section id="about">
+  <h2>За мен</h2>
+  <p>Казвам се Желязко Иванов Иванов. Студент съм в Технически университет - София, първи курс, втори семестър, специалност „Информационни технологии в индустрията“.</p>
+  <img src="profile.jpg" alt="Желязко Иванов" class="profile" onclick="showLightbox(this.src)">
+</section>
 
-  <div class="container">
-    <img src="profile.jpg" alt="Моя снимка" class="profile">
+<section id="interests">
+  <h2>Интереси</h2>
+  <p>Интересувам се от програмиране, уеб разработка, бази данни и компютърни мрежи. Обичам да създавам сайтове и да работя по практически проекти.</p>
+</section>
 
-    <section id="about">
-      <h2>За мен</h2>
-      <p>Здравей! Казвам се Желязко Иванов и съм студент в <strong>Техническия университет – София</strong>, специалност <strong>Информационни технологии в индустрията</strong>.</p>
-      <p>Родом съм от град Раднево. Завърших НПГВМ "Иван Павлов", гр. Стара Загора, специалост: "Ветеринарен техник".</p>
-    </section>
+<section id="contact">
+  <h2>Контакт</h2>
+  <p><strong>Име:</strong> Желязко Иванов Иванов</p>
+  <p><strong>Имейл:</strong> zhivanov@tu-sofia.bg</p>
+  <p><strong>Телефон:</strong> +359 89 447 9897</p>
+  <p><strong>Локация:</strong> България, София, жк. Студентски град, бл. 59, вх. В, ап. 504</p>
+</section>
 
-    <section id="interests">
-      <h2>Интереси от база данни:</h2>
-      <div id="interests-from-db"></div>
-    </section>
+<!-- Lightbox контейнер -->
+<div id="lightbox" onclick="hideLightbox()">
+  <img src="" alt="Уголемено изображение">
+</div>
 
-    <section id="contact">
-      <h2>Контакт</h2>
-      <form action="https://formspree.io/f/your-form-id" method="POST">
-        <label for="name">Име:</label><br>
-        <input type="text" id="name" name="name" required><br>
+<script>
+  function showLightbox(src) {
+    document.getElementById('lightbox').style.display = 'flex'
+    document.querySelector('#lightbox img').src = src
+  }
+  function hideLightbox() {
+    document.getElementById('lightbox').style.display = 'none'
+  }
+</script>
 
-        <label for="email">Имейл:</label><br>
-        <input type="email" id="email" name="_replyto" required><br>
-
-        <label for="message">Съобщение:</label><br>
-        <textarea id="message" name="message" rows="5" required></textarea><br>
-
-        <button type="submit">Изпрати</button>
-      </form>
-    </section>
-  </div>
-
-  <footer>
-    © 2025 Желязко Иванов. Всички права запазени.
-  </footer>
-
-  <script type="module">
-    const SUPABASE_URL = "https://ipzlxcjcpuqbkmrsusft.supabase.co";  
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlwemx4Y2pjcHVxYmttcnN1c2Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NzkxOTIsImV4cCI6MjA2MTM1NTE5Mn0.fhAC8gItainXYCTjRtpIG6w9eGm_G1nilgmRoy5Z3k4";  
-    const headers = {
-      apikey: SUPABASE_KEY,
-      Authorization: `Bearer ${SUPABASE_KEY}`,
-    };
-
-    fetch(`${SUPABASE_URL}/rest/v1/interests`, {
-      method: 'GET',
-      headers,
-    })
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById("interests-from-db");
-      data.forEach(item => {
-        const el = document.createElement("p");
-        el.textContent = `${item.name} (${item.category})`;
-        container.appendChild(el);
-      });
-    })
-    .catch(err => console.error('Error:', err));
-  </script>
 </body>
 </html>
