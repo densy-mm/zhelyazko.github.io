@@ -34,8 +34,8 @@
 
 <script>
   // URL и API ключ за Supabase (замени с твоя ключ)
-  const SUPABASE_URL=https://ipzlxcjcpuqbkmrsusft.supabase.co; // Замени с твоето Supabase URL
-  const SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlwemx4Y2pjcHVxYmttcnN1c2Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NzkxOTIsImV4cCI6MjA2MTM1NTE5Mn0.fhAC8gItainXYCTjRtpIG6w9eGm_G1nilgmRoy5Z3k4; // Замени с твоя анонимен ключ
+  const SUPABASE_URL = "https://ipzlxcjcpuqbkmrsusft.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlwemx4Y2pjcHVxYmttcnN1c2Z0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NzkxOTIsImV4cCI6MjA2MTM1NTE5Mn0.fhAC8gItainXYCTjRtpIG6w9eGm_G1nilgmRoy5Z3k4";
 
   // Запитване към API-то на Supabase
   async function loadInterests() {
@@ -43,8 +43,9 @@
       const response = await fetch(`${SUPABASE_URL}/rest/v1/interests`, {
         method: 'GET',
         headers: {
+          'apikey': SUPABASE_ANON_KEY, // Добавих и това заглавие — важно за Supabase
           'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         }
       });
 
@@ -54,17 +55,16 @@
 
       const data = await response.json();
       
-      // Изчистваме списъка, за да избегнем дублиране
       const interestsList = document.getElementById('interests');
       interestsList.innerHTML = '';
 
-      // Добавяме нови интереси
       data.forEach(interest => {
         const li = document.createElement('li');
         li.classList.add('interest-item');
-        li.textContent = interest.name; // Предполага се, че колоната в Supabase се казва 'name'
+        li.textContent = interest.name; // колоната в Supabase трябва да е 'name'
         interestsList.appendChild(li);
       });
+
     } catch (error) {
       console.error('Грешка при зареждането на интересите:', error);
     }
